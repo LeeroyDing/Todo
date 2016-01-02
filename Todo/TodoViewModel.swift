@@ -11,7 +11,29 @@ import Bond
 
 class TodoViewModel: NSObject {
 
-  let text = Observable<String?>(nil)
-  let selected = Observable<Bool>(false)
+  struct CellContent {
+    let text: String?
+    let selected: Bool
+  }
   
+  let cellContents = ObservableArray<CellContent>([])
+  
+  init(_ models: [Todo]) {
+    super.init()
+    cellContents.array = models.map { model in
+      CellContent(text: model.text, selected: model.done)
+    }
+  }
 }
+
+#if DEBUG
+extension TodoViewModel {
+  class func fake() -> TodoViewModel {
+    return TodoViewModel([
+      Todo(text: "First item", done: false),
+      Todo(text: "Second item", done: true),
+      Todo(text: "Third item", done: false),
+    ])
+  }
+}
+#endif

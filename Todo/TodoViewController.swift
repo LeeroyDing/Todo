@@ -9,11 +9,17 @@
 import UIKit
 
 class TodoViewController: UIViewController {
+  
   @IBOutlet weak var tableView: UITableView! {
     didSet {
       tableView.rowHeight = UITableViewAutomaticDimension
     }
   }
+  var viewModel: TodoViewModel!
   
-  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    viewModel.cellContents.lift().bindTo(tableView) { indexPath, array, tableView in
+    }
+  }
 }
