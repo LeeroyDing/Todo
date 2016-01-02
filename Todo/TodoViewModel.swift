@@ -33,6 +33,7 @@ extension TodoViewModel {
       Todo(text: "First item", done: false),
       Todo(text: "Second item", done: true),
       Todo(text: "Third item", done: false),
+      Todo(text: "Fourth item is a very very long item that will break into the next line", done: false)
     ])
   }
 }

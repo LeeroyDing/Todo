@@ -11,6 +11,10 @@ import UIKit
 class TodoTableViewCell: UITableViewCell {
   
   @IBOutlet weak var checkButton: UIButton!
-  @IBOutlet weak var contentTextView: UITextView!
+  @IBOutlet weak var contentTextView: UITextView! {
+    didSet {
+      contentTextView.textContainer.lineBreakMode = .ByWordWrapping
+    }
+  }
   
 }

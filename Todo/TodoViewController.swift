@@ -13,6 +13,7 @@ class TodoViewController: UIViewController {
   @IBOutlet weak var tableView: UITableView! {
     didSet {
       tableView.rowHeight = UITableViewAutomaticDimension
+      tableView.estimatedRowHeight = 44
     }
   }
   var viewModel: TodoViewModel!
