@@ -12,11 +12,16 @@ class TodoViewController: UIViewController {
   
   @IBOutlet weak var tableView: UITableView! {
     didSet {
+      // Autolayout in UITableView cells, see:
+      // https://stackoverflow.com/questions/18746929/using-auto-layout-in-uitableview-for-dynamic-cell-layouts-variable-row-heights
       tableView.rowHeight = UITableViewAutomaticDimension
       tableView.estimatedRowHeight = 44
     }
   }
+  
   var viewModel: TodoViewModel!
+  
+  // MARK: Present
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -28,4 +33,11 @@ class TodoViewController: UIViewController {
       return cell
     }
   }
+  
+  // MARK: Interaction
+  
+  @IBAction func clearFinished(sender: AnyObject) {
+    viewModel.cellContents.array = viewModel.cellContents.filter { !$0.selected }
+  }
+  
 }
