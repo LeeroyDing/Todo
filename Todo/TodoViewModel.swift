@@ -13,8 +13,8 @@ class TodoViewModel: NSObject, CollectionViewModel {
 
   typealias Model = Todo
   struct ElementContent {
-    let text: String?
-    let selected: Bool
+    var text: String?
+    var selected: Bool
   }
   
   let elementContents = ObservableArray<ElementContent>([])
@@ -34,7 +34,7 @@ class TodoViewModel: NSObject, CollectionViewModel {
       elementContents.array = models.map(modelToElementContent)
       elementContents.observeNew { [weak self](event) in
         self?.handleObservableOperation(event.operation)
-      }
+      }.disposeIn(bnd_bag)
     }
   }
   

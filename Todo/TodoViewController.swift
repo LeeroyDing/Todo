@@ -32,6 +32,7 @@ class TodoViewController: UIViewController {
       cell.bnd_bag.dispose()
       cell.contentTextView.text = data.text
       cell.checkButton.selected = data.selected
+      cell.delegate = self
       return cell
     }
   }
@@ -39,14 +40,27 @@ class TodoViewController: UIViewController {
   // MARK: Interaction
   
   @IBAction func clearFinished(sender: AnyObject) {
-    viewModel.elementContents.performBatchUpdates { cellContents in
-      viewModel.elementContents.enumerate().filter {
-        $1.selected
-      }.reverse().forEach { (i, _) in
-        viewModel.elementContents.removeAtIndex(i)
+    viewModel.elementContents.performBatchUpdates { elementContents in
+      viewModel.elementContents.enumerate()
+        .filter { $1.selected }
+        .reverse()
+        .forEach { (i, _) in
+          viewModel.elementContents.removeAtIndex(i)
       }
     }
   }
   
 }
 
+extension TodoViewController: TodoTableViewCellDelegate {
+  
+  func checkButtonOfCellDidTap(cell: TodoTableViewCell) {
+    guard let indexPath = tableView.indexPathForCell(cell) else { return }
+    viewModel.elementContents[indexPath.row].selected = cell.checkButton.selected
+  }
+  
+  func contentTextOfCellDidChange(cell: TodoTableViewCell) {
+    guard let indexPath = tableView.indexPathForCell(cell) else { return }
+    viewModel.elementContents[indexPath.row].text = cell.contentTextView.text
+  }
+}
