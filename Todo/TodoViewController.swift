@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Bond
 
 class TodoViewController: UIViewController {
   
@@ -25,9 +26,10 @@ class TodoViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    viewModel.cellContents.lift().bindTo(tableView) { indexPath, array, tableView in
+    viewModel.elementContents.lift().bindTo(tableView) { indexPath, array, tableView in
       let cell = tableView.dequeueReusableCellWithIdentifier(R.reuseIdentifier.todoCell)!
       let data = array[indexPath.section][indexPath.row]
+      cell.bnd_bag.dispose()
       cell.contentTextView.text = data.text
       cell.checkButton.selected = data.selected
       return cell
@@ -37,7 +39,14 @@ class TodoViewController: UIViewController {
   // MARK: Interaction
   
   @IBAction func clearFinished(sender: AnyObject) {
-    viewModel.cellContents.array = viewModel.cellContents.filter { !$0.selected }
+    viewModel.elementContents.performBatchUpdates { cellContents in
+      viewModel.elementContents.enumerate().filter {
+        $1.selected
+      }.reverse().forEach { (i, _) in
+        viewModel.elementContents.removeAtIndex(i)
+      }
+    }
   }
   
 }
+

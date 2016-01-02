@@ -9,21 +9,44 @@
 import UIKit
 import Bond
 
-class TodoViewModel: NSObject {
+class TodoViewModel: NSObject, CollectionViewModel {
 
-  struct CellContent {
+  typealias Model = Todo
+  struct ElementContent {
     let text: String?
     let selected: Bool
   }
   
-  let cellContents = ObservableArray<CellContent>([])
+  let elementContents = ObservableArray<ElementContent>([])
+  
+  func modelToElementContent(model: Model) -> ElementContent {
+    return ElementContent(text: model.text, selected: model.done)
+  }
+  
+  func elementContentToModel(elementContent: ElementContent) -> Model {
+    return Model(text: elementContent.text!, done: elementContent.selected)
+  }
+
+  
+  var models: [Todo] = [] {
+    didSet {
+      bnd_bag.dispose()
+      elementContents.array = models.map(modelToElementContent)
+      elementContents.observeNew { [weak self](event) in
+        self?.handleObservableOperation(event.operation)
+      }
+    }
+  }
   
   init(_ models: [Todo]) {
     super.init()
-    cellContents.array = models.map { model in
-      CellContent(text: model.text, selected: model.done)
-    }
+    setup(models)  // Trigger didSet
   }
+  
+  private func setup(models: [Todo]) {
+    self.models = models
+  }
+  
 }
 
 #if DEBUG

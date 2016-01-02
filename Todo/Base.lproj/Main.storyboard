@@ -37,12 +37,18 @@
                                                     <state key="selected" title="☑︎">
                                                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="checkButtonDidTap" destination="ILM-IJ-UUZ" eventType="touchUpInside" id="CB6-OD-IrX"/>
+                                                    </connections>
                                                 </button>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" scrollEnabled="NO" text="Lorem ipsum dolor" translatesAutoresizingMaskIntoConstraints="NO" id="8of-75-PNH">
                                                     <rect key="frame" x="46" y="8" width="545.5" height="27"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="ILM-IJ-UUZ" id="uMQ-DQ-IOA"/>
+                                                    </connections>
                                                 </textView>
                                             </subviews>
                                             <constraints>
