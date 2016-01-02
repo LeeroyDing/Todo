@@ -14,15 +14,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    setUpRootViewController()
+    window?.rootViewController = rootViewController()
     return true
   }
 
 }
 
 extension AppDelegate {
-  private func setUpRootViewController() {
-    guard let rootViewController = window?.rootViewController as? TodoViewController else { fatalError() }
-    rootViewController.viewModel = .fake()
+  private func rootViewController() -> UIViewController {
+    let rootViewController = R.storyboard.main.initialViewController!
+    let firstViewController = rootViewController.viewControllers.first as! TodoViewController
+    firstViewController.viewModel = .fake()
+    return rootViewController
   }
 }

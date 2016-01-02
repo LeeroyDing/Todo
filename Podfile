@@ -3,6 +3,7 @@ use_frameworks!
 
 pod 'Reveal-iOS-SDK', '1.6.2', :configurations => ['Debug']
 pod 'Bond'
+pod 'R.swift'
 
 target 'Todo' do
   

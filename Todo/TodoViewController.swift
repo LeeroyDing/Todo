@@ -20,6 +20,11 @@ class TodoViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     viewModel.cellContents.lift().bindTo(tableView) { indexPath, array, tableView in
+      let cell = tableView.dequeueReusableCellWithIdentifier(R.reuseIdentifier.todoCell)!
+      let data = array[indexPath.section][indexPath.row]
+      cell.contentTextView.text = data.text
+      cell.checkButton.selected = data.selected
+      return cell
     }
   }
 }
