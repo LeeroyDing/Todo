@@ -67,6 +67,9 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="RwO-ye-nhB"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -78,7 +81,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Todo" id="kuk-ha-Tz1">
-                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="IVp-0G-Ztv"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="IVp-0G-Ztv">
+                            <connections>
+                                <action selector="newTodo:" destination="BYZ-38-t0r" id="t5B-WF-Fs8"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="trash" id="2dS-OW-cY5">
                             <connections>
                                 <action selector="clearFinished:" destination="BYZ-38-t0r" id="f5G-Ka-sYW"/>

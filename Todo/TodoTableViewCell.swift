@@ -41,4 +41,7 @@ extension TodoTableViewCell: UITextViewDelegate {
     return true
   }
   
+  func textViewDidEndEditing(textView: UITextView) {
+    delegate?.contentTextOfCellDidChange(self)
+  }
 }

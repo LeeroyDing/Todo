@@ -22,6 +22,8 @@ class TodoViewController: UIViewController {
   
   var viewModel: TodoViewModel!
   
+  var autoFocusOnNewCell = false
+  
   // MARK: Present
   
   override func viewDidLoad() {
@@ -38,6 +40,11 @@ class TodoViewController: UIViewController {
   }
   
   // MARK: Interaction
+  
+  @IBAction func newTodo(sender: AnyObject) {
+    autoFocusOnNewCell = true
+    viewModel.elementContents.append(TodoViewModel.ElementContent(text: "", selected: false))
+  }
   
   @IBAction func clearFinished(sender: AnyObject) {
     viewModel.elementContents.performBatchUpdates { elementContents in
@@ -62,5 +69,15 @@ extension TodoViewController: TodoTableViewCellDelegate {
   func contentTextOfCellDidChange(cell: TodoTableViewCell) {
     guard let indexPath = tableView.indexPathForCell(cell) else { return }
     viewModel.elementContents[indexPath.row].text = cell.contentTextView.text
+  }
+}
+
+extension TodoViewController: UITableViewDelegate {
+  func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    let cell = cell as! TodoTableViewCell
+    if autoFocusOnNewCell {
+      cell.contentTextView.becomeFirstResponder()
+      autoFocusOnNewCell = false
+    }
   }
 }
