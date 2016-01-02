@@ -6,10 +6,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Todo View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="TodoViewController" customModule="Todo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="todoCell" id="ILM-IJ-UUZ">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="todoCell" id="ILM-IJ-UUZ" customClass="TodoTableViewCell" customModule="Todo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ILM-IJ-UUZ" id="OGX-CE-i6I">
@@ -55,6 +55,10 @@
                                                 <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="8of-75-PNH" secondAttribute="trailing" id="zEN-Ae-wBa"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="checkButton" destination="X5a-sv-9IN" id="bpY-BE-JKr"/>
+                                            <outlet property="contentTextView" destination="8of-75-PNH" id="Cnk-qs-Bg4"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -71,6 +75,9 @@
                         <barButtonItem key="leftBarButtonItem" systemItem="add" id="IVp-0G-Ztv"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="trash" id="2dS-OW-cY5"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="vog-8d-ne1" id="F0U-nX-tjq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
