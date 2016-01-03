@@ -1,18 +1,25 @@
 PODS:
   - Bond (4.3.0)
   - R.swift (0.13.0)
+  - Realm (0.97.0):
+    - Realm/Headers (= 0.97.0)
+  - Realm/Headers (0.97.0)
+  - RealmSwift (0.97.0):
+    - Realm (= 0.97.0)
   - Reveal-iOS-SDK (1.6.2)
 
 DEPENDENCIES:
   - Bond
   - R.swift
+  - Realm
+  - RealmSwift
   - Reveal-iOS-SDK (= 1.6.2)
 
 SPEC CHECKSUMS:
   Bond: ebe2364b18130690083cbceff036420b21494ae4
   R.swift: 07e0796d2b4d50b875eb7de9bd8e6193e15c6434
+  Realm: b498a6fb9d288b171ff98d0e2d4384c295be8990
+  RealmSwift: d014810dec75c9a3f1a33926d2dabfed855c582c
   Reveal-iOS-SDK: e2250b3c155bcfac53ae223ddc1f76d08f206c33
 
-PODFILE CHECKSUM: b6106bb1c3c7b2a6fa375aa465e58fe80d1d1d0d
-
-COCOAPODS: 1.0.0.beta.1
+COCOAPODS: 0.39.0
