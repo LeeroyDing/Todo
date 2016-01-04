@@ -11,18 +11,21 @@ import Bond
 
 class TodoViewModel: NSObject {
 
+  // MARK: Element content from model
+  
   class ElementContent {
     var text = Observable<String?>(nil)
     var selected = Observable<Bool>(false)
   }
   
   let models: ObservableArray<Todo>
+  // Ugly type is inferred from the map function
   lazy var elementContents: EventProducer<ObservableArrayEvent<LazyMapCollection<[Todo], ElementContent>>>! =
   { [unowned self] in
-    self.models.map(self.modelToElementContent)
+    self.models.map(self.elementContentFromModel)
   }()
   
-  func modelToElementContent(model: Todo) -> ElementContent {
+  func elementContentFromModel(model: Todo) -> ElementContent {
     let elementContent = ElementContent()
     Observable<String?>(object: model, keyPath: "text")
       .bindTo(elementContent.text)
@@ -47,6 +50,8 @@ class TodoViewModel: NSObject {
     self.models = ObservableArray(models)
     super.init()
   }
+  
+  // MARK: Controller operations
   
   func addTodo(newTodo: Todo) {
     models.append(newTodo)
