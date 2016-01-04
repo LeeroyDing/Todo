@@ -10,6 +10,17 @@ import Foundation
 import RealmSwift
 
 class Todo: Object {
+  dynamic var id: String! = nil
   dynamic var text: String = ""
   dynamic var done: Bool = false
+  
+  convenience init(text: String, done: Bool) {
+    self.init(value: ["id": NSUUID().UUIDString, "text": text, "done": done])
+  }
+}
+
+// MARK: Equatable
+extension Todo: Equatable {}
+func ==(lhs: Todo, rhs: Todo) -> Bool {
+  return lhs.id == rhs.id
 }
