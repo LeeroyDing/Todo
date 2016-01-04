@@ -25,7 +25,7 @@ extension AppDelegate {
   private func rootViewController() -> UIViewController {
     let rootViewController = R.storyboard.main.initialViewController!
     let firstViewController = rootViewController.viewControllers.first as! TodoViewController
-    firstViewController.viewModel = .fake()
+    firstViewController.viewModel = .getAll()
     return rootViewController
   }
 }

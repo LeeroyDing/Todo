@@ -57,14 +57,12 @@ class TodoViewModel: NSObject {
   }
 }
 
-#if DEBUG
 import RealmSwift
 
 extension TodoViewModel {
-  class func fake() -> TodoViewModel {
+  class func getAll() -> TodoViewModel {
     let realm = try! Realm()
     let todos = realm.objects(Todo).map{$0}
     return TodoViewModel(todos)
   }
 }
-#endif
