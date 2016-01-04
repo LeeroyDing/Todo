@@ -9,55 +9,57 @@
 import UIKit
 import Bond
 
-class TodoViewModel: NSObject, CollectionViewModel {
+class TodoViewModel: NSObject {
 
   typealias Model = Todo
-  struct ElementContent {
-    var text: String?
-    var selected: Bool
+  class ElementContent {
+    var text = Observable<String?>(nil)
+    var selected = Observable<Bool>(false)
   }
   
-  let elementContents = ObservableArray<ElementContent>([])
+  private var models: ObservableArray<Todo>
+  lazy var elementContents: EventProducer<ObservableArrayEvent<LazyMapCollection<[Todo], ElementContent>>>! =
+  { [unowned self] in
+    self.models.map(self.modelToElementContent)
+  }()
   
   func modelToElementContent(model: Model) -> ElementContent {
-    return ElementContent(text: model.text, selected: model.done)
-  }
-  
-  func elementContentToModel(elementContent: ElementContent) -> Model {
-    return Model(text: elementContent.text!, done: elementContent.selected)
-  }
-
-  
-  var models: [Todo] = [] {
-    didSet {
-      bnd_bag.dispose()
-      elementContents.array = models.map(modelToElementContent)
-      elementContents.observeNew { [weak self](event) in
-        self?.handleObservableOperation(event.operation)
-      }.disposeIn(bnd_bag)
+    let elementContent = ElementContent()
+    Observable<String?>(object: model, keyPath: "text")
+      .bindTo(elementContent.text)
+    Observable<Bool>(object: model, keyPath: "done")
+      .bindTo(elementContent.selected)
+    elementContent.text.observeNew { text in
+      let realm = try! Realm()
+      try! realm.write {
+        model.text = text!
+      }
     }
+    elementContent.selected.observeNew { selected in
+      let realm = try! Realm()
+      try! realm.write {
+        model.done = selected
+      }
+    }
+    return elementContent
   }
+  
   
   init(_ models: [Todo]) {
+    self.models = ObservableArray(models)
     super.init()
-    setup(models)  // Trigger didSet
-  }
-  
-  private func setup(models: [Todo]) {
-    self.models = models
   }
   
 }
 
 #if DEBUG
+import RealmSwift
+
 extension TodoViewModel {
   class func fake() -> TodoViewModel {
-    return TodoViewModel([
-      Todo(text: "First item", done: false),
-      Todo(text: "Second item", done: true),
-      Todo(text: "Third item", done: false),
-      Todo(text: "Fourth item is a very very long item that will break into the next line", done: false)
-    ])
+    let realm = try! Realm()
+    let todos = realm.objects(Todo).map{$0}
+    return TodoViewModel(todos)
   }
 }
 #endif
