@@ -11,19 +11,18 @@ import Bond
 
 class TodoViewModel: NSObject {
 
-  typealias Model = Todo
   class ElementContent {
     var text = Observable<String?>(nil)
     var selected = Observable<Bool>(false)
   }
   
-  private var models: ObservableArray<Todo>
+  let models: ObservableArray<Todo>
   lazy var elementContents: EventProducer<ObservableArrayEvent<LazyMapCollection<[Todo], ElementContent>>>! =
   { [unowned self] in
     self.models.map(self.modelToElementContent)
   }()
   
-  func modelToElementContent(model: Model) -> ElementContent {
+  func modelToElementContent(model: Todo) -> ElementContent {
     let elementContent = ElementContent()
     Observable<String?>(object: model, keyPath: "text")
       .bindTo(elementContent.text)
@@ -44,12 +43,18 @@ class TodoViewModel: NSObject {
     return elementContent
   }
   
-  
   init(_ models: [Todo]) {
     self.models = ObservableArray(models)
     super.init()
   }
   
+  func addTodo(newTodo: Todo) {
+    models.append(newTodo)
+    let realm = try! Realm()
+    try! realm.write {
+      realm.add(newTodo)
+    }
+  }
 }
 
 #if DEBUG

@@ -43,8 +43,8 @@ class TodoViewController: UIViewController {
   // MARK: Interaction
   
   @IBAction func newTodo(sender: AnyObject) {
-//    autoFocusOnNewCell = true
-//    viewModel.elementContents.append(TodoViewModel.ElementContent(text: "", selected: false))
+    let newTodo = Todo(text: "", done: false)
+    viewModel.addTodo(newTodo)
   }
   
   @IBAction func clearFinished(sender: AnyObject) {
