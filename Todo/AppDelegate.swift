@@ -14,7 +14,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    #if DEBUG
     seedData()
+    #endif
     window?.rootViewController = rootViewController()
     return true
   }
