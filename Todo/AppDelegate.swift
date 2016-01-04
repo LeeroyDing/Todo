@@ -14,6 +14,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    #if DEBUG
+    seedData()
+    #endif
     window?.rootViewController = rootViewController()
     return true
   }
@@ -24,7 +27,7 @@ extension AppDelegate {
   private func rootViewController() -> UIViewController {
     let rootViewController = R.storyboard.main.initialViewController!
     let firstViewController = rootViewController.viewControllers.first as! TodoViewController
-    firstViewController.viewModel = .fake()
+    firstViewController.viewModel = .getAll()
     return rootViewController
   }
 }

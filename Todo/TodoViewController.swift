@@ -32,9 +32,10 @@ class TodoViewController: UIViewController {
       let cell = tableView.dequeueReusableCellWithIdentifier(R.reuseIdentifier.todoCell)!
       let data = array[indexPath.section][indexPath.row]
       cell.bnd_bag.dispose()
-      cell.contentTextView.text = data.text
-      cell.checkButton.selected = data.selected
-      cell.delegate = self
+      data.text.bidirectionalBindTo(cell.contentTextView.bnd_text)
+        .disposeIn(cell.bnd_bag)
+      data.selected.bidirectionalBindTo(cell.checkButton.bnd_selected)
+        .disposeIn(cell.bnd_bag)
       return cell
     }
   }
@@ -43,33 +44,14 @@ class TodoViewController: UIViewController {
   
   @IBAction func newTodo(sender: AnyObject) {
     autoFocusOnNewCell = true
-    viewModel.elementContents.append(TodoViewModel.ElementContent(text: "", selected: false))
+    let newTodo = Todo(text: "", done: false)
+    viewModel.addTodo(newTodo)
   }
   
   @IBAction func clearFinished(sender: AnyObject) {
-    viewModel.elementContents.performBatchUpdates { elementContents in
-      viewModel.elementContents.enumerate()
-        .filter { $1.selected }
-        .reverse()
-        .forEach { (i, _) in
-          viewModel.elementContents.removeAtIndex(i)
-      }
-    }
+    viewModel.clearFinishedTodos()
   }
   
-}
-
-extension TodoViewController: TodoTableViewCellDelegate {
-  
-  func checkButtonOfCellDidTap(cell: TodoTableViewCell) {
-    guard let indexPath = tableView.indexPathForCell(cell) else { return }
-    viewModel.elementContents[indexPath.row].selected = cell.checkButton.selected
-  }
-  
-  func contentTextOfCellDidChange(cell: TodoTableViewCell) {
-    guard let indexPath = tableView.indexPathForCell(cell) else { return }
-    viewModel.elementContents[indexPath.row].text = cell.contentTextView.text
-  }
 }
 
 extension TodoViewController: UITableViewDelegate {
