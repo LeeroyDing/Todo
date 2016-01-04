@@ -13,8 +13,9 @@ extension AppDelegate {
   func seedData() {
     let realm = try! Realm()
     guard realm.isEmpty else { return }
+    let todos = [Todo(text: "Yo", done: false)]
     try! realm.write {
-      realm.create(Todo.self, value: ["First item", false])
+      realm.add(todos)
     }
   }
 }

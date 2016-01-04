@@ -55,6 +55,19 @@ class TodoViewModel: NSObject {
       realm.add(newTodo)
     }
   }
+  
+  func removeTodo(todo: Todo) {
+    guard let index = models.indexOf(todo) else { fatalError("No such todo") }
+    models.removeAtIndex(index)
+    let realm = try! Realm()
+    try! realm.write {
+      realm.delete(todo)
+    }
+  }
+  
+  func clearFinishedTodos() {
+    models.filter{$0.done}.forEach(removeTodo)
+  }
 }
 
 import RealmSwift

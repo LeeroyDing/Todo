@@ -43,19 +43,13 @@ class TodoViewController: UIViewController {
   // MARK: Interaction
   
   @IBAction func newTodo(sender: AnyObject) {
+    autoFocusOnNewCell = true
     let newTodo = Todo(text: "", done: false)
     viewModel.addTodo(newTodo)
   }
   
   @IBAction func clearFinished(sender: AnyObject) {
-//    viewModel.elementContents.performBatchUpdates { elementContents in
-//      viewModel.elementContents.enumerate()
-//        .filter { $1.selected }
-//        .reverse()
-//        .forEach { (i, _) in
-//          viewModel.elementContents.removeAtIndex(i)
-//      }
-//    }
+    viewModel.clearFinishedTodos()
   }
   
 }
